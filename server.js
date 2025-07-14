@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { OpenAI } from "openai";
+import OpenAI from "openai";
 
 dotenv.config();
 
@@ -11,12 +11,11 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Ստեղծում ենք OpenAI client-ը
+// OpenAI client ստեղծում
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// API route-ը resume-ի գեներացման համար
 app.post("/api/generate-resume", async (req, res) => {
   try {
     const { prompt } = req.body;
@@ -27,9 +26,7 @@ app.post("/api/generate-resume", async (req, res) => {
 
     const response = await openai.chat.completions.create({
       model: "gpt-4",
-      messages: [
-        { role: "user", content: prompt }
-      ],
+      messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
     });
 
